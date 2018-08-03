@@ -8,7 +8,9 @@ module ShopInvader
         if env['steam.path'].start_with?('invader/')
           path = env['steam.path'].sub('invader/', '')
           response = erp.call(env['REQUEST_METHOD'], path, params)
-          if env['CONTENT_TYPE'] == "application/json" || env['REQUEST_METHOD'] == 'GET'
+          if path.include?('check_payment')
+            _render_html(response)
+          elsif env['CONTENT_TYPE'] == "application/json" || env['REQUEST_METHOD'] == 'GET'
             _render_json(response)
           else
             _render_html(response)
